@@ -18,32 +18,34 @@ namespace MatchGame
 
 {
     using System.Windows.Threading;
+    
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// Need to figure out the timer !! Help !!!
     public partial class MainWindow : Window
     {
-        DispatcherTimer timer = new DispatcherTimer();
-        int tenthsOfSecondElapsed;
+        private DispatcherTimer timer = new DispatcherTimer();
+        int tenthsOfSecondsElapsed;
         int matchesFound;
 
         public MainWindow()
         {
             InitializeComponent();
-            timer.Interval = TimeSpan.FromSeconds(.1);
+            const double Value = .1;
+            timer.Interval = TimeSpan.FromSeconds(Value);
             timer.Tick += Timer_Tick;
-
             SetUpGame();
-
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            tenthsOfSecondElapsed++;
-            TimeTextBlock.Text = (tenthsOfSecondElapsed / 10F).ToString("0.0s");
+            tenthsOfSecondsElapsed++;
+            TimeTextBlock.Text = (tenthsOfSecondsElapsed / 10F).ToString("0.0s");
             {
                 timer.Stop();
-                TimeTextBlock.Text = TimeTextBlock.Text + " - Play again?";
+                const string V = " - Play again?";
+                TimeTextBlock.Text += V;
             }
         }
 
@@ -73,14 +75,16 @@ namespace MatchGame
                 }
             }
             timer.Start();
-            tenthsOfSecondElapsed = 0;
+            tenthsOfSecondsElapsed = 0;
             matchesFound = 0;
         }
         TextBlock lastTextBlockClicked;
         bool findingMatch = false;
+        private object timeTextBlock;
+
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            TextBlock textBlock = sender as TextBlock; if (findingMatch == false)
+            TextBlock textBlock = sender as TextBlock; if (findingMatch == false) 
             {
                 textBlock.Visibility = Visibility.Hidden;
                 lastTextBlockClicked = textBlock;
