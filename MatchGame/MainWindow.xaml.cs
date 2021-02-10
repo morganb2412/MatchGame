@@ -25,15 +25,14 @@ namespace MatchGame
     /// Need to figure out the timer !! Help !!!
     public partial class MainWindow : Window
     {
-        private DispatcherTimer timer = new DispatcherTimer();
-        int tenthsOfSecondsElapsed;
+        readonly DispatcherTimer timer = new DispatcherTimer();
+        private int tenthsOfSecondsElapsed;
         int matchesFound;
 
         public MainWindow()
         {
             InitializeComponent();
-            const double Value = .1;
-            timer.Interval = TimeSpan.FromSeconds(Value);
+            timer.Interval = TimeSpan.FromSeconds(.1);
             timer.Tick += Timer_Tick;
             SetUpGame();
         }
@@ -41,11 +40,12 @@ namespace MatchGame
         private void Timer_Tick(object sender, EventArgs e)
         {
             tenthsOfSecondsElapsed++;
-            TimeTextBlock.Text = (tenthsOfSecondsElapsed / 10F).ToString("0.0s");
+            TimeTextBlock.Text = (tenthsOfSecondsElapsed * 0.10).ToString("0.00s");
+            if (matchesFound == 8)
+        
             {
                 timer.Stop();
-                const string V = " - Play again?";
-                TimeTextBlock.Text += V;
+                TimeTextBlock.Text = TimeTextBlock.Text + " - Play again?";
             }
         }
 
